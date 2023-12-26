@@ -109,14 +109,17 @@
 import express from "express";
 import * as UserController from "../controllers/user";
 import { requiresAuth } from "../middleware/requiresAuth";
+import { isApproved } from "../middleware/isApproved";
 
 const router = express.Router();
 
 router.get("/", requiresAuth, UserController.getAuthenticatedUser)
 
-router.post("/register", UserController.register);
+router.get("/register", UserController.get_register);
 
-router.post("/login", UserController.login);
+router.post("/register", UserController.post_register);
+
+router.post("/login", isApproved, UserController.login);
 
 router.get("/logout", UserController.logout);
 

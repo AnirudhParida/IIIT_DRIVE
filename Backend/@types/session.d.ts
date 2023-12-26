@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 declare module "express-session" {
     interface SessionData {
-        userid: mongoose.Types.ObjectId
+        userid: mongoose.Types.ObjectId,
+        adminid: mongoose.Types.ObjectId
     }
 }

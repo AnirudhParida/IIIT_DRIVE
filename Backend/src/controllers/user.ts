@@ -6,7 +6,7 @@ import bcrypt from "bcrypt"
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     try {
-        const user = await UserModel.findById(req.session.userid).select("+email +role").exec();
+        const user = await UserModel.findById(req.session.userid).select("+email +role +status").exec();
         res.status(200).json(user);
     }
     catch (error) {
@@ -19,9 +19,19 @@ interface SignupBody {
     email?: string;
     password?: string;
     role: string;
+    status?: string;
 }
 
-export const register: RequestHandler<unknown, unknown, SignupBody, unknown> = async (req, res, next) => {
+export const get_register: RequestHandler = async (req, res, next) => {
+    try {
+        res.status(200).render("register");
+    }
+    catch (error) {
+        next(error)
+    }
+}
+
+export const post_register: RequestHandler<unknown, unknown, SignupBody, unknown> = async (req, res, next) => {
     try {
         const name = req.body.name;
         const email = req.body.email;
@@ -48,7 +58,6 @@ export const register: RequestHandler<unknown, unknown, SignupBody, unknown> = a
         req.session.userid = newUser._id;
 
         res.status(201).json(newUser);
-
 
     }
     catch (error) {
@@ -106,4 +115,3 @@ export const logout: RequestHandler = async (req, res, next) => {
     })
 }
 
-export default { login, register } 

@@ -1,6 +1,8 @@
 import express from "express"
 import createHttpError, { isHttpError } from "http-errors"
+import admin_router from "./routes/admin"
 import user_router from "./routes/user"
+//import files_router from "./routes/files"
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import MongoStore from "connect-mongo";
@@ -29,7 +31,9 @@ app.use(session({
     })
 }))
 
+app.use("/api/admin", admin_router)
 app.use("/api/user", user_router)
+//app.use("/api/files", files_router)
 
 
 app.get("/", (req, res) => {

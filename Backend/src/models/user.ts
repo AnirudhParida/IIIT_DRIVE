@@ -4,7 +4,8 @@ const UserSchema = new Schema({
     name: String,
     email: String,
     password: String,
-    role: String
+    role: { type: String, default: "user" },
+    status: { type: String, default: "pending" }
 })
 
 type User = InferSchemaType<typeof UserSchema>
