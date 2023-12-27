@@ -11,19 +11,37 @@
  *       properties:
  *         name:
  *           type: string
+ *           description: The name of the user
  *         email:
  *           type: string
  *           format: email
+ *           description: The email address of the user
  *         password:
  *           type: string
+ *           description: The password of the user
  *         role:
  *           type: string
+ *           default: user
+ *           description: The role of the user, defaults to "user"
+ *         status:
+ *           type: string
+ *           default: pending
+ *           description: The status of the user, defaults to "pending"
+ *         filePaths:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: An array of file paths associated with the user
  *       required:
  *         - name
  *         - email
  *         - password
+ */
+
+/**
+ * @swagger
  * paths:
- *   /:
+ *   /user/:
  *     get:
  *       summary: Get authenticated user
  *       security:
@@ -34,13 +52,23 @@
  *           content:
  *             application/json:
  *               example:
- *                 message: "Authenticated user details"
- *                 user:
- *                   name: John Doe
- *                   email: john@example.com
- *                   role: user
+ *                 name: "John Doe"
+ *                 email: "john@example.com"
+ *                 role: "user"
+ *                 status: "pending"
+ *                 filePaths: []
  *
- *   /register:
+ *   /user/register:
+ *     get:
+ *       summary: Get user registration form
+ *       responses:
+ *         '200':
+ *           description: Successful operation
+ *           content:
+ *             application/json:
+ *               example:
+ *                 message: "Render registration form"
+ *
  *     post:
  *       summary: Register a new user
  *       requestBody:
@@ -51,17 +79,19 @@
  *               $ref: '#/components/schemas/User'
  *       responses:
  *         '200':
- *           description: Successful registration
+ *           description: User registered successfully
  *           content:
  *             application/json:
  *               example:
  *                 message: "User registered successfully"
  *                 user:
- *                   name: John Doe
- *                   email: john@example.com
- *                   role: user
+ *                   name: "John Doe"
+ *                   email: "john@example.com"
+ *                   role: "user"
+ *                   status: "pending"
+ *                   filePaths: []
  *
- *   /login:
+ *   /user/login:
  *     post:
  *       summary: Log in as a user
  *       requestBody:
@@ -87,29 +117,25 @@
  *               example:
  *                 message: "Login successful"
  *                 user:
- *                   name: John Doe
- *                   email: john@example.com
- *                   role: user
- *                   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+ *                   name: "John Doe"
+ *                   email: "john@example.com"
+ *                   role: "user"
+ *                   status: "pending"
+ *                   filePaths: []
  *
- *   /logout:
+ *   /user/logout:
  *     get:
- *       summary: Log out the authenticated user
- *       security:
- *         - bearerAuth: []
+ *       summary: Log out as a user
  *       responses:
  *         '200':
  *           description: Successful logout
- *           content:
- *             application/json:
- *               example:
- *                 message: "Logout successful"
  */
+
 
 import express from "express";
 import * as UserController from "../controllers/user";
 import { requiresAuth } from "../middleware/requiresAuth";
-import { isApproved } from "../middleware/isApproved";
+//import { isApproved } from "../middleware/isApproved";
 
 const router = express.Router();
 
@@ -119,7 +145,7 @@ router.get("/register", UserController.get_register);
 
 router.post("/register", UserController.post_register);
 
-router.post("/login", isApproved, UserController.login);
+router.post("/login", UserController.login);
 
 router.get("/logout", UserController.logout);
 
