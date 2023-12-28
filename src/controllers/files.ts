@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import UserModel from "../models/user"
-//import path from "path";
+import path from "path";
 
 
 export const test: RequestHandler = async (req, res, next) => {
