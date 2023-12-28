@@ -11,6 +11,7 @@
  *       properties:
  *         name:
  *           type: string
+
  *           description: The name of the user
  *         email:
  *           type: string
@@ -32,6 +33,7 @@
  *           items:
  *             type: string
  *           description: An array of file paths associated with the user
+
  *       required:
  *         - name
  *         - email
@@ -42,6 +44,7 @@
  * @swagger
  * paths:
  *   /user/:
+
  *     get:
  *       summary: Get authenticated user
  *       security:
@@ -117,6 +120,7 @@
  *               example:
  *                 message: "Login successful"
  *                 user:
+
  *                   name: "John Doe"
  *                   email: "john@example.com"
  *                   role: "user"
@@ -137,6 +141,7 @@ import * as UserController from "../controllers/user";
 import { requiresAuth } from "../middleware/requiresAuth";
 //import { isApproved } from "../middleware/isApproved";
 
+
 const router = express.Router();
 
 router.get("/", requiresAuth, UserController.getAuthenticatedUser)
@@ -145,7 +150,9 @@ router.get("/register", UserController.get_register);
 
 router.post("/register", UserController.post_register);
 
+
 router.post("/login", UserController.login);
+
 
 router.get("/logout", UserController.logout);
 

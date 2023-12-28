@@ -3,6 +3,7 @@ import UserModel from "../models/user";
 
 export const isApproved: RequestHandler = async (req, res, next) => {
     try {
+
         const id = req.session.userid;
         const waiting_User = await UserModel.findById(id).select("+email +status").exec();
         if (waiting_User === null) {
@@ -10,6 +11,8 @@ export const isApproved: RequestHandler = async (req, res, next) => {
         }
         if (waiting_User && (waiting_User.status as string) === "pending") {
             res.status(401).json({ error: "Your account is not approved yet" });
+
+
 
         }
         else {
@@ -19,5 +22,6 @@ export const isApproved: RequestHandler = async (req, res, next) => {
     catch (error) {
         next(error);
     }
+
 }
 
