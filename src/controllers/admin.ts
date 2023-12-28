@@ -26,7 +26,12 @@ export const login_Admin: RequestHandler<unknown, unknown, LoginBody, unknown> =
         const adminname = req.body.adminname;
         const admin_password = req.body.admin_password;
 
-        if (!adminname || !admin_password) {
+
+        if (!adminname) {
+            throw createHttpError(400, "Invalid credentials");
+        }
+        if (!admin_password) {
+
             throw createHttpError(400, "Invalid credentials");
         }
 

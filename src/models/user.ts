@@ -5,7 +5,10 @@ const UserSchema = new Schema({
     email: String,
     password: String,
     role: { type: String, default: "user" },
-    status: { type: String, default: "pending" }
+
+    status: { type: String, default: "pending" },
+    filePaths: [{ type: String }]
+
 })
 
 type User = InferSchemaType<typeof UserSchema>
